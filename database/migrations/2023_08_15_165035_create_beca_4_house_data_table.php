@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('beca_4_house_data', function (Blueprint $table) {
             $table->id();
-            $table->integer("beca_id");
-            $table->string('house_is');
-            $table->string('roof_material');
-            $table->string('floor_material');
-            $table->integer('score');
+            $table->foreignId('beca_id')->constrained('becas', 'id');
+            $table->string('house_is')->nullable();
+            $table->string('roof_material')->nullable();
+            $table->string('floor_material')->nullable();
+            $table->integer('score')->nullable();
+            $table->boolean('finished')->default(false);
+            
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

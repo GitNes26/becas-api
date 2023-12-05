@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('beca_3_economic_data', function (Blueprint $table) {
             $table->id();
-            $table->integer("beca_id");
-            $table->decimal('food', 11, 2)->comment("despensa");
-            $table->decimal('transport', 11, 2);
-            $table->decimal('living_place', 11, 2)->comment("vivienda");
-            $table->decimal('services', 11, 2)->comment("agua y luz");
-            $table->decimal('automobile', 11, 2);
+            $table->foreignId('beca_id')->constrained('becas', 'id');
+            $table->decimal('food', 11, 2)->nullable()->comment("despensa");
+            $table->decimal('transport', 11, 2)->nullable();
+            $table->decimal('living_place', 11, 2)->nullable()->comment("vivienda");
+            $table->decimal('services', 11, 2)->nullable()->comment("agua y luz");
+            $table->decimal('automobile', 11, 2)->nullable();
+            $table->boolean('finished')->default(false);
+
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

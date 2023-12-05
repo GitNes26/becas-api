@@ -27,6 +27,7 @@ return new class extends Migration
         INNER JOIN disabilities d ON sd.disability_id=d.id
         INNER JOIN schools s ON b.school_id=s.id
         INNER JOIN levels l ON s.level_id=l.id
+        
         WHERE b.active=1;
         ");
     }

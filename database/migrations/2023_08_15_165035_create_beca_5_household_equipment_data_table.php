@@ -15,24 +15,25 @@ return new class extends Migration
     {
         Schema::create('beca_5_household_equipment_data', function (Blueprint $table) {
             $table->id();
-            $table->integer("beca_id");
-            $table->integer('beds');
-            $table->integer('washing_machines');
-            $table->integer('boilers');
-            $table->integer('tvs');
-            $table->integer('pcs');
-            $table->integer('music_player');
-            $table->integer('stoves');
-            $table->integer('refrigerators');
+            $table->foreignId('beca_id')->constrained('becas', 'id');
+            $table->integer('beds')->nullable();
+            $table->integer('washing_machines')->nullable();
+            $table->integer('boilers')->nullable();
+            $table->integer('tvs')->nullable();
+            $table->integer('pcs')->nullable();
+            $table->integer('music_player')->nullable();
+            $table->integer('stoves')->nullable();
+            $table->integer('refrigerators')->nullable();
 
-            $table->boolean('drinking_water');
-            $table->boolean('electric_light');
-            $table->boolean('sewer_system');
-            $table->boolean('pavement');
-            $table->boolean('automobile');
-            $table->boolean('phone_line');
-            $table->boolean('internet');
-            $table->integer('score');
+            $table->boolean('drinking_water')->nullable();
+            $table->boolean('electric_light')->nullable();
+            $table->boolean('sewer_system')->nullable();
+            $table->boolean('pavement')->nullable();
+            $table->boolean('automobile')->nullable();
+            $table->boolean('phone_line')->nullable();
+            $table->boolean('internet')->nullable();
+            $table->integer('score')->nullable();
+            $table->boolean('finished')->default(false);
 
             $table->boolean('active')->default(true);
             $table->timestamps();
