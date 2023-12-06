@@ -25,6 +25,7 @@ class Beca6ScholarshipProgramData extends Model
         'beca_transport',
         'beca_benito_juarez',
         'other',
+        'finished',
         'active',
         'deleted_at'
     ];

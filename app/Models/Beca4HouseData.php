@@ -26,6 +26,7 @@ class Beca4HouseData extends Model
         'roof_material',
         'floor_material',
         'score',
+        'finished',
         'active',
         'deleted_at'
     ];

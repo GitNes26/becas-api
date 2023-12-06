@@ -14,6 +14,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\SchoolBecasController;
 use App\Http\Controllers\Beca1StudentDataController;
 use App\Http\Controllers\Beca1TutorDataController;
+use App\Http\Controllers\Beca2FamilyDataController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\RelationshipController;
 
@@ -123,5 +124,17 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/becas/getLastFolio', 'getLastFolio');
       Route::get('/becas/user/{id}', 'getRequestBecasByUser');
       Route::get('/becas/folio/{folio}', 'getRequestBecasByFolio');
+   });
+
+   Route::controller(Beca2FamilyDataController::class)->group(function () {
+      Route::get('/families', 'index');
+      Route::get('/families/selectIndex', 'selectIndex');
+      Route::get('/families/id/{id}', 'show');
+      Route::post('/families/create', 'createOrUpdateByBeca');
+      Route::put('/families/update/{id?}', 'createOrUpdateByBeca');
+      Route::delete('/families/delete/{id}', 'destroy');
+
+      Route::get('/families/beca/{beca_id}', 'getIndexByBeca');
+      Route::get('/families/beca/folio/{folio}', 'getIndexByFolio');
    });
 });

@@ -19,7 +19,11 @@ return new class extends Migration
         sd.curp, sd.name, sd.paternal_last_name, sd.maternal_last_name, sd.birthdate, sd.gender, sd.community_id as student_community_id, 
         sd.street as student_street, sd.num_ext as student_num_ext, sd.num_int as student_num_int, sd.disability_id, d.disability, 
         d.description, s.code, s.level_id, l.level, s.school, s.community_id as school_community_id, 
-        s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone
+        s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone,
+        CASE
+            WHEN b2.finished = 1 THEN 5
+            ELSE 4
+        END current_page
         FROM becas as b 
         INNER JOIN users usr ON b.user_id=usr.id
         INNER JOIN beca_1_tutor_data td ON b.tutor_data_id=td.id
@@ -27,7 +31,7 @@ return new class extends Migration
         INNER JOIN disabilities d ON sd.disability_id=d.id
         INNER JOIN schools s ON b.school_id=s.id
         INNER JOIN levels l ON s.level_id=l.id
-        
+        LEFT JOIN beca_2_family_data b2 ON b.id=b2.beca_id
         WHERE b.active=1;
         ");
     }

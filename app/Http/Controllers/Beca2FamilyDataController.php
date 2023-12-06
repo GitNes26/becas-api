@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Beca2FamilyData;
-use App\Models\Beca1TutorData;
 use App\Models\ObjResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,29 +14,93 @@ class Beca2FamilyDataController extends Controller
     /**
      * Crear o Actualizar familiar desde formulario beca.
      *
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function createOrUpdateByBeca($request)
+    public function createOrUpdateByBeca(Request $request, Response $response, Int $id = null)
     {
+        $response->data = ObjResponse::DefaultResponse();
         try {
-            $student_data = Beca2FamilyData::where('id', $request->curp)->first();
-            if (!$student_data) $student_data = new Beca2FamilyData();
+            $famility_data = Beca2FamilyData::where('id', $id)->first();
+            if (!$famility_data) $famility_data = new Beca2FamilyData();
 
-            $student_data->beca_id = $request->beca_id;
-            $student_data->relationship = $request->relationship;
-            $student_data->age = $request->age;
-            $student_data->occupation = $request->occupation;
-            $student_data->monthly_income = $request->monthly_income;
+            $famility_data->beca_id = $request->beca_id;
+            $famility_data->relationship = $request->relationship;
+            $famility_data->age = $request->age;
+            $famility_data->occupation = $request->occupation;
+            $famility_data->monthly_income = $request->monthly_income;
+            $famility_data->finished = $request->finished;
 
-            $student_data->save();
-            return $student_data;
+            $famility_data->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | familiar registrado.';
+            $response->data["alert_text"] = 'Familiar registrado';
+            $response->data["result"] = $famility_data;
+            // return $famility_data;
         } catch (\Exception $ex) {
             $msg =  "Error al crear o actualizar familiar por medio de la beca: " . $ex->getMessage();
-
-            echo "$msg";
-            return $msg;
+            error_log("$msg");
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+            // return $msg;
         }
+        return response()->json($response, $response->data["status_code"]);
     }
+
+    /**
+     * Mostrar lista de familiares por beca activos.
+     *
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getIndexByBeca(Int $beca_id, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $list = Beca2FamilyData::where('beca_2_family_data.active', true)->where('beca_2_family_data.beca_id', $beca_id)
+                ->orderBy('beca_2_family_data.id', 'desc')->get();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de familiares por beca.';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $msg =  "Error en getIndexByBeca: " . $ex->getMessage();
+            error_log("$msg");
+            $response->data = ObjResponse::CatchResponse($msg);
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * Mostrar lista de familiares por folio activos.
+     *
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getIndexByFolio(Int $folio, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $becaController = new BecaController();
+            $becaController->_getBecaByFolio($folio);
+
+            $this->getIndexByBeca($beca_id, $response);
+
+            // $list = Beca2FamilyData::where('beca_2_family_data.active', true)->where('beca_2_family_data.beca_id', $beca_id)
+            //     ->orderBy('beca_2_family_data.id', 'desc')->get();
+            // $response->data = ObjResponse::CorrectResponse();
+            // $response->data["message"] = 'Peticion satisfactoria | Lista de familiares por beca.';
+            // $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $msg =  "Error en getIndexByFolio: " . $ex->getMessage();
+            error_log("$msg");
+            $response->data = ObjResponse::CatchResponse($msg);
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+
+
+
+
+
 
     /**
      * Mostrar lista de familiares activos.
@@ -48,9 +111,7 @@ class Beca2FamilyDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Beca1TutorData::where('beca_2_family_data.active', true)
-                ->join('disabilities', 'beca_2_family_data.disability_id', '=', 'disabilities.id')
-                ->select('beca_2_family_data.*', 'disabilities.disability', 'disabilities.description')
+            $list = Beca2FamilyData::where('beca_2_family_data.active', true)
                 ->orderBy('beca_2_family_data.id', 'desc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de familiares.';
@@ -70,7 +131,7 @@ class Beca2FamilyDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Beca1TutorData::where('beca_2_family_data.active', true)
+            $list = Beca2FamilyData::where('beca_2_family_data.active', true)
                 ->select('beca_2_family_data.id as id', 'beca_2_family_data.name as label')
                 ->orderBy('beca_2_family_data.name', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();

@@ -27,6 +27,7 @@ class Beca3EconomicData extends Model
         'living_place',
         'services',
         'automobile',
+        'finished',
         'active',
         'deleted_at'
     ];

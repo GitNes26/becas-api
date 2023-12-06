@@ -186,6 +186,47 @@ class BecaController extends Controller
 
     /**
      * Mostrar beca por folio.
+     *
+     * @param   Int $folio
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getBecaByFolio(Request $request, Response $response, Int $folio)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $beca = Beca::where('folio', $folio)->first();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
+            $response->data["result"] = $beca;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+    /**
+     * Mostrar beca por folio.
+     *
+     * @param   Int $folio
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function _getBecaByFolio(Int $folio)
+    {
+        try {
+            $beca = Beca::where('folio', $folio)->first();
+            return $beca;
+        } catch (\Exception $ex) {
+            $msg =  "Error al obtener beca por folio: " . $ex->getMessage();
+            error_log("$msg");
+            return null;
+        }
+    }
+
+
+    /**
+     * Mostrar beca por folio.
      * Mostrar solo si el usuario logeado es el correspondiente a la beca o eres admin
      *
      * @param   int $id

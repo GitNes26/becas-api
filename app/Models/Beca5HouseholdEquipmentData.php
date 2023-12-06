@@ -38,6 +38,7 @@ class Beca5HouseholdEquipmentData extends Model
         'phone_line',
         'internet',
         'score',
+        'finished',
         'active',
         'deleted_at'
     ];
