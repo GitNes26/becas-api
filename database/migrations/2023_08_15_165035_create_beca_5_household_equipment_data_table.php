@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('boilers')->nullable();
             $table->integer('tvs')->nullable();
             $table->integer('pcs')->nullable();
+            $table->integer('phones')->nullable();
             $table->integer('music_player')->nullable();
             $table->integer('stoves')->nullable();
             $table->integer('refrigerators')->nullable();
@@ -33,7 +34,7 @@ return new class extends Migration
             $table->boolean('phone_line')->nullable();
             $table->boolean('internet')->nullable();
             $table->integer('score')->nullable();
-            $table->boolean('finished')->default(false);
+            $table->boolean('finished')->nullable()->default(false);
 
             $table->boolean('active')->default(true);
             $table->timestamps();

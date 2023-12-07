@@ -27,6 +27,7 @@ class Beca5HouseholdEquipmentData extends Model
         'boilers',
         'tvs',
         'pcs',
+        'phones',
         'music_player',
         'stoves',
         'refrigerators',

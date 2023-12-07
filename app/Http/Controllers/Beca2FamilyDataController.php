@@ -79,9 +79,9 @@ class Beca2FamilyDataController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $becaController = new BecaController();
-            $becaController->_getBecaByFolio($folio);
+            $beca = $becaController->_getBecaByFolio($folio);
 
-            $this->getIndexByBeca($beca_id, $response);
+            $this->getIndexByBeca($beca->id, $response);
 
             // $list = Beca2FamilyData::where('beca_2_family_data.active', true)->where('beca_2_family_data.beca_id', $beca_id)
             //     ->orderBy('beca_2_family_data.id', 'desc')->get();

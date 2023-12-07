@@ -116,7 +116,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::controller(BecaController::class)->group(function () {
       Route::get('/becas', 'index');
       Route::get('/becas/selectIndex', 'selectIndex');
-      Route::get('/becas/id/{id}', 'show');
+      Route::get('/becas/{id}', 'show');
       Route::post('/becas', 'create');
       Route::put('/becas/{id?}', 'update');
       Route::delete('/becas/{id}', 'destroy');

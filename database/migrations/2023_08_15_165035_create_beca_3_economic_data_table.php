@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('living_place', 11, 2)->nullable()->comment("vivienda");
             $table->decimal('services', 11, 2)->nullable()->comment("agua y luz");
             $table->decimal('automobile', 11, 2)->nullable();
-            $table->boolean('finished')->default(false);
+            $table->boolean('finished')->nullable()->default(false);
 
             $table->boolean('active')->default(true);
             $table->timestamps();
