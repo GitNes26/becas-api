@@ -21,7 +21,7 @@ class Beca2FamilyDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $famility_data = Beca2FamilyData::where('id', $id)->first();
+            $famility_data = Beca2FamilyData::find($id);
             if (!$famility_data) $famility_data = new Beca2FamilyData();
 
             $famility_data->beca_id = $request->beca_id;
@@ -34,8 +34,8 @@ class Beca2FamilyDataController extends Controller
             $famility_data->save();
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | familiar registrado.';
-            $response->data["alert_text"] = 'Familiar registrado';
+            $response->data["message"] = $id > 0 ? 'peticion satisfactoria | familiar editado.' : 'satisfactoria | familiar registrado.';
+            $response->data["alert_text"] = $id > 0 ? 'Familiar editado' : 'Familiar registrado';
             $response->data["result"] = $famility_data;
             // return $famility_data;
         } catch (\Exception $ex) {
@@ -57,7 +57,7 @@ class Beca2FamilyDataController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Beca2FamilyData::where('beca_2_family_data.active', true)->where('beca_2_family_data.beca_id', $beca_id)
-                ->orderBy('beca_2_family_data.id', 'desc')->get();
+                ->orderBy('beca_2_family_data.id', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de familiares por beca.';
             $response->data["result"] = $list;
@@ -96,6 +96,29 @@ class Beca2FamilyDataController extends Controller
         return response()->json($response, $response->data["status_code"]);
     }
 
+    /**
+     * Eliminar familiar o familiares.
+     *
+     * @param  int $id
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function delete(Request $request, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            // echo "$request->ids";
+            // $deleteIds = explode(',', $ids);
+            $countDeleted = sizeof($request->ids);
+            Beca2FamilyData::whereIn('id', $request->ids)->delete();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = $countDeleted == 1 ? 'peticion satisfactoria | familiar eliminado.' : "peticion satisfactoria | familiares eliminados ($countDeleted).";
+            $response->data["alert_text"] = $countDeleted == 1 ? 'Familiar eliminado' : "Familiares eliminados  ($countDeleted)";
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
 
 
 

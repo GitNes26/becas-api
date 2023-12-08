@@ -136,5 +136,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
       Route::get('/families/beca/{beca_id}', 'getIndexByBeca');
       Route::get('/families/beca/folio/{folio}', 'getIndexByFolio');
+      Route::post('/families/destroy', 'delete');
    });
 });
