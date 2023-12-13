@@ -122,8 +122,9 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/becas/{id}', 'destroy');
 
       Route::get('/becas/getLastFolio', 'getLastFolio');
-      Route::get('/becas/user/{id}', 'getRequestBecasByUser');
-      Route::get('/becas/folio/{folio}', 'getRequestBecasByFolio');
+      Route::get('/becas/user/{id}', 'getBecasByUser');
+      Route::get('/becas/folio/{folio}', 'getBecaByFolio');
+      Route::put('/becas/folio/{folio}/page/{page}/saveBeca', 'saveBeca');
    });
 
    Route::controller(Beca2FamilyDataController::class)->group(function () {

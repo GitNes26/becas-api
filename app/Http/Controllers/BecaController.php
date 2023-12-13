@@ -16,6 +16,69 @@ use App\ModelsView;
 class BecaController extends Controller
 {
     /**
+     * Actualizar beca por pagina o guardado temporal.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function saveBeca(Request $request, Response $response, Int $folio, Int $page)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $beca = Beca::where('folio', $folio)->first();
+            if (!$beca) {
+                // $response->data["message"] = 'peticion satisfactoria | Avance guardado.';
+                $response->data["alert_text"] = 'Beca no encontrada';
+                return response()->json($response, $response->data["status_code"]);
+            }
+
+            // if ($request->folio) $beca->folio = $request->folio;
+            if ((int)$page === 1) {
+                // error_log("PAGINA - 1 === $page");
+                if ($request->tutor_id) $beca->user_id = $request->tutor_id;
+                if ($request->tutor_data_id) $beca->tutor_data_id = $request->tutor_data_id;
+            }
+            if ((int)$page === 2) {
+                // error_log("PAGINA - 2 === $page");
+                if ($request->student_data_id) $beca->student_data_id = $request->student_data_id;
+            }
+            if ((int)$page === 3) {
+                // error_log("PAGINA - 3 === $page");
+                if ($request->school_id) $beca->school_id = $request->school_id;
+                if ($request->grade) $beca->grade = $request->grade;
+                if ($request->average) $beca->average = $request->average;
+                if ($request->comments) $beca->comments = $request->comments;
+                $beca->current_page = 4;
+            }
+            if ((int)$page === 4) {
+                // error_log("PAGINA - 4 === $page");
+                if ($request->extra_income) $beca->extra_income = $request->extra_income;
+                if ($request->monthly_income) $beca->monthly_income = $request->monthly_income;
+                if ($request->finish) $beca->current_page = 4;
+            }
+            if ((int)$page === 5) {
+                // error_log("PAGINA - 5 === $page");
+                if ($request->total_expenses) $beca->total_expenses = $request->total_expenses;
+            }
+            if ((int)$page === 8) {
+                // error_log("PAGINA - 8 === $page");
+                if ($request->under_protest) $beca->under_protest = $request->under_protest;
+            }
+            // if ($request->socioeconomic_study) $beca->socioeconomic_study = $request->socioeconomic_study;
+
+            $beca->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | Avance guardado.';
+            $response->data["alert_text"] = 'Avance guardado';
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    //#region CRUD
+    /**
      * Mostrar lista de becas activas.
      *
      * @return \Illuminate\Http\Response $response
@@ -182,6 +245,7 @@ class BecaController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+    //#endregion CRUD
 
 
     /**
@@ -191,11 +255,11 @@ class BecaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function getBecaByFolio(Request $request, Response $response, Int $folio)
+    public function getBecaByFolio(Response $response, Int $folio)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $beca = Beca::where('folio', $folio)->first();
+            $beca = BecasView::where('folio', $folio)->first();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
@@ -233,14 +297,14 @@ class BecaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function getRequestBecasByUser(Request $request, Response $response)
+    public function getBecasByUser(Request $request, Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
             $role_id = Auth::user()->role_id;
-            return "que tengo aqui? -> $role_id";
+            // return "que tengo aqui? -> $role_id";
             $beca = BecasView::where('folio', $request->folio)->first();
-            $beca = BecasView::where('folio', $request->folio)->first();
+            // $beca = Becas::where('folio', $request->folio)->first();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
