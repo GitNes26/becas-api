@@ -29,7 +29,6 @@ class Beca2FamilyDataController extends Controller
             $famility_data->age = $request->age;
             $famility_data->occupation = $request->occupation;
             $famility_data->monthly_income = $request->monthly_income;
-            $famility_data->finished = $request->finished;
 
             $famility_data->save();
 
@@ -155,8 +154,8 @@ class Beca2FamilyDataController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Beca2FamilyData::where('beca_2_family_data.active', true)
-                ->select('beca_2_family_data.id as id', 'beca_2_family_data.name as label')
-                ->orderBy('beca_2_family_data.name', 'asc')->get();
+                ->select('beca_2_family_data.id as id', 'beca_2_family_data.relationship as label')
+                ->orderBy('beca_2_family_data.relationship', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de familiares';
             $response->data["result"] = $list;

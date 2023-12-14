@@ -33,16 +33,16 @@ class BecaController extends Controller
             }
 
             // if ($request->folio) $beca->folio = $request->folio;
-            if ((int)$page === 1) {
+            if ((int)$page === 3) {
                 // error_log("PAGINA - 1 === $page");
                 if ($request->tutor_id) $beca->user_id = $request->tutor_id;
                 if ($request->tutor_data_id) $beca->tutor_data_id = $request->tutor_data_id;
-            }
-            if ((int)$page === 2) {
+                // }
+                // if ((int)$page === 2) {
                 // error_log("PAGINA - 2 === $page");
                 if ($request->student_data_id) $beca->student_data_id = $request->student_data_id;
-            }
-            if ((int)$page === 3) {
+                // }
+                // if ((int)$page === 3) {
                 // error_log("PAGINA - 3 === $page");
                 if ($request->school_id) $beca->school_id = $request->school_id;
                 if ($request->grade) $beca->grade = $request->grade;
@@ -54,11 +54,21 @@ class BecaController extends Controller
                 // error_log("PAGINA - 4 === $page");
                 if ($request->extra_income) $beca->extra_income = $request->extra_income;
                 if ($request->monthly_income) $beca->monthly_income = $request->monthly_income;
-                if ($request->finish) $beca->current_page = 4;
+                if ((bool)$request->finished) $beca->current_page = 5;
             }
             if ((int)$page === 5) {
-                // error_log("PAGINA - 5 === $page");
+                // return ("PAGINA - 5 === $page");
+                $b3Controller = new Beca3EconomicDataController();
+                $b3Controller->_createOrUpdateByBeca($request, $beca->id);
                 if ($request->total_expenses) $beca->total_expenses = $request->total_expenses;
+                if ((bool)$request->b3_finished) $beca->current_page = 6;
+            }
+            if ((int)$page === 6) {
+                // return ("PAGINA - 6 === $page");
+                $b4Controller = new Beca4HouseDataController();
+                $b4Controller->_createOrUpdateByBeca($request, $beca->id);
+                if ($request->total_expenses) $beca->total_expenses = $request->total_expenses;
+                if ((bool)$request->b4_finished) $beca->current_page = 7;
             }
             if ((int)$page === 8) {
                 // error_log("PAGINA - 8 === $page");
@@ -70,7 +80,7 @@ class BecaController extends Controller
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | Avance guardado.';
-            $response->data["alert_text"] = 'Avance guardado';
+            $response->data["alert_text"] = "Avance guardado (pagina $page)";
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

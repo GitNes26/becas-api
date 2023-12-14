@@ -124,7 +124,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/becas/getLastFolio', 'getLastFolio');
       Route::get('/becas/user/{id}', 'getBecasByUser');
       Route::get('/becas/folio/{folio}', 'getBecaByFolio');
-      Route::put('/becas/folio/{folio}/page/{page}/saveBeca', 'saveBeca');
+      Route::post('/becas/folio/{folio}/page/{page}/saveBeca', 'saveBeca');
    });
 
    Route::controller(Beca2FamilyDataController::class)->group(function () {

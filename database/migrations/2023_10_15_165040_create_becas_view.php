@@ -18,7 +18,9 @@ return new class extends Migration
         td.tutor_relationship_id tutor_relationship_id, r.relationship relationship, td.tutor_curp tutor_curp, td.tutor_name tutor_name, td.tutor_paternal_last_name tutor_paternal_last_name, td.tutor_maternal_last_name tutor_maternal_last_name, td.tutor_phone tutor_phone, td.tutor_img_ine, td.tutor_img_power_letter,
         sd.curp, sd.name, sd.paternal_last_name, sd.maternal_last_name, sd.birthdate, sd.gender, sd.community_id, sd.street, sd.num_ext, sd.num_int, sd.disability_id, d.disability, d.description, 
         s.code, s.level_id, l.level, s.school, s.community_id as school_community_id, 
-        s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone
+        s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone,
+        b3_food , b3_transport, b3_living_place, b3_services, b3_automobile, b3_finished,
+        b4_house_is, b4_roof_material, b4_floor_material, b4_score, b4_finished
         -- CASE
         --    WHEN b.extra_income > 0 and b.monthly_income > 0 THEN 5
         --    ELSE 4
@@ -32,6 +34,8 @@ return new class extends Migration
         INNER JOIN schools s ON b.school_id=s.id
         INNER JOIN levels l ON s.level_id=l.id
         -- LEFT JOIN beca_2_family_data b2 ON b.id=b2.beca_id
+        LEFT JOIN beca_3_economic_data b3 ON b.id=b3_beca_id
+        LEFT JOIN beca_4_house_data b4 ON b.id=b4_beca_id
         WHERE b.active=1;
         ");
     }

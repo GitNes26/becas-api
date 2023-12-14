@@ -26,7 +26,6 @@ class Beca2FamilyData extends Model
         'age',
         'occupation',
         'monthly_income',
-        'finished',
         'active',
         'deleted_at'
     ];

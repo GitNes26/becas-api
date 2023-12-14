@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('age')->nullable();
             $table->string('occupation')->nullable();
             $table->string('monthly_income')->nullable();
-            $table->boolean('finished')->nullable()->default(false);
 
             $table->boolean('active')->default(true);
             $table->timestamps();
