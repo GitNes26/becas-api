@@ -52,7 +52,7 @@ class Beca4HouseDataController extends Controller
             $house_data = Beca4HouseData::where("b4_beca_id", $beca_id)->first();
             if (!$house_data) $house_data = new Beca4HouseData();
 
-            $house_data->b4_beca_id = $request->b4_beca_id;
+            $house_data->b4_beca_id = $beca_id;
             $house_data->b4_house_is = $request->b4_house_is;
             $house_data->b4_roof_material = $request->b4_roof_material;
             $house_data->b4_floor_material = $request->b4_floor_material;

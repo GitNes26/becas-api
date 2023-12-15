@@ -15,26 +15,26 @@ return new class extends Migration
     {
         Schema::create('beca_5_household_equipment_data', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('beca_id')->constrained('becas', 'id');
-            $table->integer('beds')->nullable();
-            $table->integer('washing_machines')->nullable();
-            $table->integer('boilers')->nullable();
-            $table->integer('tvs')->nullable();
-            $table->integer('pcs')->nullable();
-            $table->integer('phones')->nullable();
-            $table->integer('music_player')->nullable();
-            $table->integer('stoves')->nullable();
-            $table->integer('refrigerators')->nullable();
+            $table->foreignId('b5_beca_id')->constrained('becas', 'id');
+            $table->integer('b5_beds')->nullable();
+            $table->integer('b5_washing_machines')->nullable();
+            $table->integer('b5_boilers')->nullable();
+            $table->integer('b5_tvs')->nullable();
+            $table->integer('b5_pcs')->nullable();
+            $table->integer('b5_phones')->nullable();
+            $table->integer('b5_music_player')->nullable();
+            $table->integer('b5_stoves')->nullable();
+            $table->integer('b5_refrigerators')->nullable();
 
-            $table->boolean('drinking_water')->nullable();
-            $table->boolean('electric_light')->nullable();
-            $table->boolean('sewer_system')->nullable();
-            $table->boolean('pavement')->nullable();
-            $table->boolean('automobile')->nullable();
-            $table->boolean('phone_line')->nullable();
-            $table->boolean('internet')->nullable();
-            $table->integer('score')->nullable();
-            $table->boolean('finished')->nullable()->default(false);
+            $table->boolean('b5_drinking_water')->nullable();
+            $table->boolean('b5_electric_light')->nullable();
+            $table->boolean('b5_sewer_system')->nullable();
+            $table->boolean('b5_pavement')->nullable();
+            $table->boolean('b5_automobile')->nullable();
+            $table->boolean('b5_phone_line')->nullable();
+            $table->boolean('b5_internet')->nullable();
+            $table->integer('b5_score')->nullable();
+            $table->boolean('b5_finished')->nullable()->default(false);
 
             $table->boolean('active')->default(true);
             $table->timestamps();

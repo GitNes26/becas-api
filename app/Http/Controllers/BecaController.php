@@ -67,7 +67,6 @@ class BecaController extends Controller
                 // return ("PAGINA - 6 === $page");
                 $b4Controller = new Beca4HouseDataController();
                 $b4Controller->_createOrUpdateByBeca($request, $beca->id);
-                if ($request->total_expenses) $beca->total_expenses = $request->total_expenses;
                 if ((bool)$request->b4_finished) $beca->current_page = 7;
             }
             if ((int)$page === 8) {
