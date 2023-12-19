@@ -25,9 +25,22 @@ class Beca5HouseholdEquipmentDataController extends Controller
             if (!$household_equipment_data) $household_equipment_data = new Beca5HouseholdEquipmentData();
 
             $household_equipment_data->b5_beca_id = $request->b5_beca_id;
-            $household_equipment_data->b5_house_is = $request->b5_house_is;
-            $household_equipment_data->b5_roof_material = $request->b5_roof_material;
-            $household_equipment_data->b5_floor_material = $request->b5_floor_material;
+            $household_equipment_data->b5_beds = $request->b5_beds;
+            $household_equipment_data->b5_washing_machines = $request->b5_washing_machines;
+            $household_equipment_data->b5_boilers = $request->b5_boilers;
+            $household_equipment_data->b5_tvs = $request->b5_tvs;
+            $household_equipment_data->b5_pcs = $request->b5_pcs;
+            $household_equipment_data->b5_phones = $request->b5_phones;
+            $household_equipment_data->b5_music_player = $request->b5_music_player;
+            $household_equipment_data->b5_stoves = $request->b5_stoves;
+            $household_equipment_data->b5_refrigerators = $request->b5_refrigerators;
+            $household_equipment_data->b5_drinking_water = $request->b5_drinking_water;
+            $household_equipment_data->b5_electric_light = $request->b5_electric_light;
+            $household_equipment_data->b5_sewer_system = $request->b5_sewer_system;
+            $household_equipment_data->b5_pavement = $request->b5_pavement;
+            $household_equipment_data->b5_automobile = $request->b5_automobile;
+            $household_equipment_data->b5_phone_line = $request->b5_phone_line;
+            $household_equipment_data->b5_internet = $request->b5_internet;
             $household_equipment_data->b5_score = $request->b5_score;
             $household_equipment_data->b5_finished = $request->b5_finished;
 
@@ -51,11 +64,25 @@ class Beca5HouseholdEquipmentDataController extends Controller
         try {
             $household_equipment_data = Beca5HouseholdEquipmentData::where("b5_beca_id", $beca_id)->first();
             if (!$household_equipment_data) $household_equipment_data = new Beca5HouseholdEquipmentData();
+            // return $household_equipment_data;
 
             $household_equipment_data->b5_beca_id = $beca_id;
-            $household_equipment_data->b5_house_is = $request->b5_house_is;
-            $household_equipment_data->b5_roof_material = $request->b5_roof_material;
-            $household_equipment_data->b5_floor_material = $request->b5_floor_material;
+            $household_equipment_data->b5_beds = $request->b5_beds;
+            $household_equipment_data->b5_washing_machines = $request->b5_washing_machines;
+            $household_equipment_data->b5_boilers = $request->b5_boilers;
+            $household_equipment_data->b5_tvs = $request->b5_tvs;
+            $household_equipment_data->b5_pcs = $request->b5_pcs;
+            $household_equipment_data->b5_phones = $request->b5_phones;
+            $household_equipment_data->b5_music_player = $request->b5_music_player;
+            $household_equipment_data->b5_stoves = $request->b5_stoves;
+            $household_equipment_data->b5_refrigerators = $request->b5_refrigerators;
+            $household_equipment_data->b5_drinking_water = $request->b5_drinking_water;
+            $household_equipment_data->b5_electric_light = $request->b5_electric_light;
+            $household_equipment_data->b5_sewer_system = $request->b5_sewer_system;
+            $household_equipment_data->b5_pavement = $request->b5_pavement;
+            $household_equipment_data->b5_automobile = $request->b5_automobile;
+            $household_equipment_data->b5_phone_line = $request->b5_phone_line;
+            $household_equipment_data->b5_internet = $request->b5_internet;
             $household_equipment_data->b5_score = $request->b5_score;
             $household_equipment_data->b5_finished = $request->b5_finished;
 

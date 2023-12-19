@@ -69,6 +69,12 @@ class BecaController extends Controller
                 $b4Controller->_createOrUpdateByBeca($request, $beca->id);
                 if ((bool)$request->b4_finished) $beca->current_page = 7;
             }
+            if ((int)$page === 7) {
+                // return ("PAGINA - 7 === $page");
+                $b5Controller = new Beca5HouseholdEquipmentDataController();
+                $b5Controller->_createOrUpdateByBeca($request, $beca->id);
+                if ((bool)$request->b5_finished) $beca->current_page = 8;
+            }
             if ((int)$page === 8) {
                 // error_log("PAGINA - 8 === $page");
                 if ($request->under_protest) $beca->under_protest = $request->under_protest;
