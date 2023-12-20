@@ -21,7 +21,9 @@ return new class extends Migration
         s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone,
         b3_food , b3_transport, b3_living_place, b3_services, b3_automobile, b3_finished,
         b4_house_is, b4_roof_material, b4_floor_material, b4_score, b4_finished,
-        b5_beds, b5_washing_machines, b5_boilers, b5_tvs, b5_pcs, b5_phones, b5_music_player, b5_stoves, b5_refrigerators, b5_drinking_water, b5_electric_light, b5_sewer_system, b5_pavement, b5_automobile, b5_phone_line, b5_internet, b5_score, b5_finished
+        b5_beds, b5_washing_machines, b5_boilers, b5_tvs, b5_pcs, b5_phones, b5_music_player, b5_stoves, b5_refrigerators, b5_drinking_water, b5_electric_light, b5_sewer_system, b5_pavement, b5_automobile, b5_phone_line, b5_internet, b5_score, b5_finished,
+        b6_beca_transport, b6_beca_benito_juarez, b6_beca_jovenes, b6_other, b6_finished
+
         -- CASE
         --    WHEN b.extra_income > 0 and b.monthly_income > 0 THEN 5
         --    ELSE 4
@@ -38,6 +40,7 @@ return new class extends Migration
         LEFT JOIN beca_3_economic_data b3 ON b.id=b3_beca_id
         LEFT JOIN beca_4_house_data b4 ON b.id=b4_beca_id
         LEFT JOIN beca_5_household_equipment_data b5 ON b.id=b5_beca_id
+        LEFT JOIN beca_6_scholarship_program b6 ON b.id=b6_beca_id
         WHERE b.active=1;
         ");
     }

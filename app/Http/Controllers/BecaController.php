@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Beca;
+use App\Models\Beca6ScholarshipProgramData;
 use App\Models\BecasView;
 use App\Models\ObjResponse;
 
@@ -12,6 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\ModelsView;
+use DateTime;
 
 class BecaController extends Controller
 {
@@ -35,7 +37,7 @@ class BecaController extends Controller
             // if ($request->folio) $beca->folio = $request->folio;
             if ((int)$page === 3) {
                 // error_log("PAGINA - 1 === $page");
-                if ($request->tutor_id) $beca->user_id = $request->tutor_id;
+                // if ($request->tutor_id) $beca->user_id = $request->user_id;
                 if ($request->tutor_data_id) $beca->tutor_data_id = $request->tutor_data_id;
                 // }
                 // if ((int)$page === 2) {
@@ -77,7 +79,23 @@ class BecaController extends Controller
             }
             if ((int)$page === 8) {
                 // error_log("PAGINA - 8 === $page");
-                if ($request->under_protest) $beca->under_protest = $request->under_protest;
+                $b6Controller = new Beca6ScholarshipProgramDataController();
+                $b6Controller->_createOrUpdateByBeca($request, $beca->id);
+                if ($request->under_protest) {
+                    $beca->under_protest = $request->under_protest;
+                    if ((bool)$request->b6_finished) {
+                        // $beca->current_page = 9;
+                        $beca->status = "TERMINADA";
+                        $beca->end_date = $request->end_date;
+                    }
+                } else {
+                    $response->data = ObjResponse::CorrectResponse();
+                    $response->data["status_code"] = 202;
+                    $response->data["message"] = 'peticion satisfactoria | Avance guardado.';
+                    $response->data["alert_text"] = "Avance guardado (pagina $page)";
+                    $response->data["alert_title"] = "Es necesario marcar la casilla de bajo protesta para terminar el proceso.";
+                    return response()->json($response, $response->data["status_code"]);
+                }
             }
             // if ($request->socioeconomic_study) $beca->socioeconomic_study = $request->socioeconomic_study;
 
@@ -211,7 +229,7 @@ class BecaController extends Controller
             $beca = Beca::find($request->id)
                 ->update([
                     'folio' => $request->folio,
-                    'user_id' => $request->tutor_id,
+                    'user_id' => $request->user_id,
                     // 'single_mother' => $request->single_mother,
                     'tutor_data_id' => $request->tutor_data_id,
                     'student_data_id' => $request->student_data_id,
