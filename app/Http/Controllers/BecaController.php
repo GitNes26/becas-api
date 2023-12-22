@@ -50,32 +50,33 @@ class BecaController extends Controller
                 if ($request->grade) $beca->grade = $request->grade;
                 if ($request->average) $beca->average = $request->average;
                 if ($request->comments) $beca->comments = $request->comments;
-                $beca->current_page = 4;
+                if ((int)$beca->current < 4) $beca->current_page = 4;
             }
             if ((int)$page === 4) {
                 // error_log("PAGINA - 4 === $page");
                 if ($request->extra_income) $beca->extra_income = $request->extra_income;
                 if ($request->monthly_income) $beca->monthly_income = $request->monthly_income;
-                if ((bool)$request->finished) $beca->current_page = 5;
+                if ((bool)$request->finished && (int)$beca->current < 5) $beca->current_page = 5;
             }
             if ((int)$page === 5) {
                 // return ("PAGINA - 5 === $page");
                 $b3Controller = new Beca3EconomicDataController();
                 $b3Controller->_createOrUpdateByBeca($request, $beca->id);
                 if ($request->total_expenses) $beca->total_expenses = $request->total_expenses;
-                if ((bool)$request->b3_finished) $beca->current_page = 6;
+                if ((bool)$request->b3_finished && (int)$beca->current < 6) $beca->current_page = 6;
             }
             if ((int)$page === 6) {
                 // return ("PAGINA - 6 === $page");
                 $b4Controller = new Beca4HouseDataController();
                 $b4Controller->_createOrUpdateByBeca($request, $beca->id);
-                if ((bool)$request->b4_finished) $beca->current_page = 7;
+                if ((bool)$request->b4_finished && (int)$beca->current < 7) $beca->current_page = 7;
             }
             if ((int)$page === 7) {
+                
                 // return ("PAGINA - 7 === $page");
                 $b5Controller = new Beca5HouseholdEquipmentDataController();
                 $b5Controller->_createOrUpdateByBeca($request, $beca->id);
-                if ((bool)$request->b5_finished) $beca->current_page = 8;
+                if ((bool)$request->b5_finished && (int)$beca->current < 8) $beca->current_page = 8;
             }
             if ((int)$page === 8) {
                 // error_log("PAGINA - 8 === $page");
@@ -336,8 +337,7 @@ class BecaController extends Controller
         try {
             $role_id = Auth::user()->role_id;
             // return "que tengo aqui? -> $role_id";
-            $beca = BecasView::where('folio', $request->folio)->first();
-            // $beca = Becas::where('folio', $request->folio)->first();
+            $beca = BecasView::where('folio', $request->folio)->get();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
