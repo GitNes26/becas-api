@@ -72,7 +72,7 @@ class BecaController extends Controller
                 if ((bool)$request->b4_finished && (int)$beca->current < 7) $beca->current_page = 7;
             }
             if ((int)$page === 7) {
-                
+
                 // return ("PAGINA - 7 === $page");
                 $b5Controller = new Beca5HouseholdEquipmentDataController();
                 $b5Controller->_createOrUpdateByBeca($request, $beca->id);
@@ -281,6 +281,28 @@ class BecaController extends Controller
     }
     //#endregion CRUD
 
+    /**
+     * Mostrar reporte de beca por folio.
+     * Propiedades en español
+     * 
+     * @param   Int $folio
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getReportRequestByFolio(Response $response, Int $folio)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $beca = BecasView::where('folio', $folio)->first();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
+            $response->data["result"] = $beca;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
 
     /**
      * Mostrar beca por folio.
