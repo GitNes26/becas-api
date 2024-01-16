@@ -104,7 +104,7 @@ class BecaController extends Controller
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | Avance guardado.';
-            $response->data["alert_text"] = "Avance guardado (pagina $page)";
+            $response->data["alert_text"] = $beca->status == "TERMINADA" ? "Solicitud Terminada" : "Avance guardado (pagina $page)";
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
